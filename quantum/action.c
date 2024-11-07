@@ -77,7 +77,12 @@ void action_exec(keyevent_t event) {
         debug_event(event);
         ac_dprintf("\n");
 #if defined(RETRO_TAPPING) || defined(RETRO_TAPPING_PER_KEY) || (defined(AUTO_SHIFT_ENABLE) && defined(RETRO_SHIFT))
-        retro_tapping_counter++;
+        // MAYUSHII_HAS_BEEN_HERE :eyes:
+        // retro_tapping_counter++;
+        // Only on press
+        if (event.pressed) {
+            retro_tapping_counter++;
+        }
 #endif
     }
 
@@ -825,29 +830,46 @@ void process_action(keyrecord_t *record, action_t action) {
 
 #ifndef NO_ACTION_TAPPING
 #    if defined(RETRO_TAPPING) || defined(RETRO_TAPPING_PER_KEY) || (defined(AUTO_SHIFT_ENABLE) && defined(RETRO_SHIFT))
+    // MAYUSHII_HAS_BEEN_HERE :eyes:
     if (!is_tap_action(action)) {
-        retro_tapping_counter = 0;
+        // Only reset on press
+        if (event.pressed){
+            retro_tapping_counter = 0;
+        }
+        // retro_tapping_counter = 0;
     } else {
+        // Reset counter to avoid retro tapping after ctrl/esc (LCTL_T(KC_ESC))
+        if (action.kind.id == ACT_MODS_TAP && action.key.code == KC_ESC && action.key.mods == MOD_LCTL) {
+            retro_tapping_counter = 0;
+        }
+
         if (event.pressed) {
             if (tap_count > 0) {
-                retro_tapping_counter = 0;
+                // No idea what this does
+                // retro_tapping_counter = 0;
             }
         } else {
             if (tap_count > 0) {
-                retro_tapping_counter = 0;
+                // Or this
+                // retro_tapping_counter = 0;
             } else {
+
                 if (
 #        ifdef RETRO_TAPPING_PER_KEY
                     get_retro_tapping(get_event_keycode(record->event, false), record) &&
 #        endif
-                    retro_tapping_counter == 2) {
+                    // >= 1
+                    retro_tapping_counter >= 1) {
 #        if defined(AUTO_SHIFT_ENABLE) && defined(RETRO_SHIFT)
                     process_auto_shift(action.layer_tap.code, record);
 #        else
                     tap_code(action.layer_tap.code);
+                    // Moved from down there v
+                    retro_tapping_counter = 0;
 #        endif
                 }
-                retro_tapping_counter = 0;
+                // Moved this up there ^
+                // retro_tapping_counter = 0;
             }
         }
     }
