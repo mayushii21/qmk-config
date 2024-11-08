@@ -29,11 +29,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // };
 
 enum layers {
-    BASE,
+    BASE = 0,
     SYMBOL,
     NUMPAD,
-    NAV
+    NAV,
+    NUM_LAYERS  // Total number of layers
 };
+
+void unlock_all_layers(void) {
+    for (uint8_t layer = BASE; layer < NUM_LAYERS; layer++) {
+        if (is_layer_locked(layer)) {
+            layer_lock_off(layer);
+        }
+    }
+}
 
 /**
  * Key overrides
@@ -144,8 +153,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 del_weak_mods(MOD_LSFT);
                 del_mods(MOD_LSFT);
                 send_keyboard_report();
+        // Unlock LLOCK'ed layers on ESC
+        case LCTL_T(KC_ESC):
+            if (!record->event.pressed) {
+                if (record->tap.count > 0 && !record->tap.interrupted) {
+                    // Key was tapped (Escape)
+                    unlock_all_layers();
+                }
+                // For both tap and hold, allow default behavior
+                return true;
             }
             break;
+
         case DDSLASH:
             if (record->event.pressed) {
                 SEND_STRING("../");
