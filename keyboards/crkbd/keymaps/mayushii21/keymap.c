@@ -48,7 +48,7 @@ void unlock_all_layers(void) {
 /**
  * Key overrides
  */
-const key_override_t delete_key_override = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, KC_BSPC, KC_DEL, ~0, MOD_MASK_CTRL);
+// const key_override_t delete_key_override = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, KC_BSPC, KC_DEL, ~0, MOD_MASK_CTRL);
 const key_override_t exlm_key_override = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, KC_COMM, KC_EXLM, (1 << BASE), MOD_MASK_CTRL);
 const key_override_t ques_key_override = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, KC_DOT, KC_QUES, (1 << BASE), MOD_MASK_CTRL);
 const key_override_t unds_key_override = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, KC_SPC, KC_UNDS, ~0, MOD_MASK_CTRL);
@@ -67,8 +67,8 @@ const key_override_t f10_key_override = ko_make_with_layers_and_negmods(MOD_MASK
 const key_override_t f11_key_override = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, KC_DOT, KC_F11, (1 << NUMPAD), MOD_MASK_CTRL);
 const key_override_t f12_key_override = ko_make_with_layers_and_negmods(MOD_MASK_SHIFT, KC_RPRN, KC_F12, (1 << NUMPAD), MOD_MASK_CTRL);
 // This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &delete_key_override,
+const key_override_t *key_overrides[] = {
+    // &delete_key_override,
     &exlm_key_override,
     &ques_key_override,
     &unds_key_override,
@@ -86,7 +86,6 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &f10_key_override,
     &f11_key_override,
     &f12_key_override,
-    NULL // Null terminate the array of overrides!
 };
 
 
