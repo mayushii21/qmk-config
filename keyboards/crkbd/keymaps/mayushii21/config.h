@@ -66,3 +66,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define NO_ALT_REPEAT_KEY // reduce firmware size
 #define PERMISSIVE_HOLD
 #define ACHORDION_STREAK
+
+// MouseKey stuff
+#define MOUSEKEY_DELAY          3
+#define MOUSEKEY_INTERVAL       4  // 1//240(refresh rate)*1000
+#define MOUSEKEY_WHEEL_DELAY    0
+#define MOUSEKEY_MAX_SPEED      5
+#define MOUSEKEY_TIME_TO_MAX    32
+
+
+#define MK_KINETIC_SPEED
+#define MOUSEKEY_MOVE_DELTA     100
+#define MOUSEKEY_INITIAL_SPEED  700
+

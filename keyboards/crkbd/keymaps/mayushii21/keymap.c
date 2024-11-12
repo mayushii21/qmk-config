@@ -33,6 +33,7 @@ enum layers {
     SYMBOL,
     NUMPAD,
     NAV,
+    MOUSE,
     NUM_LAYERS  // Total number of layers
 };
 
@@ -309,7 +310,10 @@ void base_nav_reset(tap_dance_state_t *state, void *user_data);
 
 
 
+#define LT_MS_G LT(MOUSE, KC_G)
+#define LT_MS_N LT(MOUSE, KC_N)
 #define LT_NAV_R LT(NAV, KC_R)
+#define LT_NAV_E LT(NAV, KC_E)
 #define LT_SYM_T LT(SYMBOL, KC_T)
 #define LT_NUM_S LT(NUMPAD, KC_S)
 #define LT_SYM_A LT(SYMBOL, KC_A)
@@ -321,7 +325,10 @@ void base_nav_reset(tap_dance_state_t *state, void *user_data);
 
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case LT_MS_G:
+        case LT_MS_N:
         case LT_NAV_R:
+        case LT_NAV_E:
         case LT_SYM_T:
         case LT_NUM_S:
         case LT_SYM_A:
@@ -347,7 +354,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,--------------------------------------------------------.                    ,------------------------------------------------------.
       KC_VOLD,    KC_B,     KC_L,     KC_D,     KC_C,    KC_V,                         KC_J,    KC_Y,     KC_O,    KC_U, KC_COMM, KC_VOLU,
   //|--------+--------+---------+---------+---------+--------|                    |--------+--------+---------+--------+--------+--------|
-       KC_TAB,    KC_N, LT_NAV_R, LT_SYM_T, LT_NUM_S,    KC_G,                         KC_P,    KC_H, LT_SYM_A,    KC_E,    KC_I, KC_RALT,
+       KC_TAB, LT_MS_N, LT_NAV_R, LT_SYM_T, LT_NUM_S, LT_MS_G,                         KC_P,    KC_H, LT_SYM_A,LT_NAV_E,    KC_I, KC_RALT,
   //|--------+--------+---------+---------+---------+--------|                    |--------+--------+---------+--------+--------+--------|
       KC_LGUI,    KC_X,     KC_Q,     KC_M,     KC_W,    KC_Z,                         KC_K,    KC_F,  KC_QUOT, KC_SCLN,  KC_DOT, XXXXXXX,
   //|--------+--------+---------+---------+---------+--------+--------|  |--------+--------+--------+---------+--------+--------+--------|
@@ -408,13 +415,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [NAV] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
- TD(TD_RESET), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX, _______,
+ TD(TD_RESET), MS_WHLU, MS_BTN2,   MS_UP, MS_BTN1, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, _______,
+      _______, MS_WHLD, MS_LEFT, MS_DOWN, MS_RGHT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, DT_PRNT,   DT_UP, DT_DOWN,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______, XXXXXXX, MS_WHLL, XXXXXXX, MS_WHLR, XXXXXXX,                      DT_PRNT,   DT_UP, DT_DOWN, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,      LLOCK, _______, _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [MOUSE] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR, MS_ACL2, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT, MS_ACL0, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, _______, _______,      LLOCK, MS_BTN1, MS_BTN2
                                       //`--------------------------'  `--------------------------'
   )
 };
