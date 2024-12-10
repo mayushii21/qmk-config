@@ -180,34 +180,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-// // Add the behaviour of this new keycode
-// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-//   static bool kc_shift = false; // keeps track of shift status
-//   switch (keycode) {
-//     // raise shift before clicking = after + or !
-//     case KC_EXLM:
-//     case KC_PLUS:
-//       kc_shift = record->event.pressed;
-//       return true;
-//     case KC_EQUAL:
-//       if (record->event.pressed && kc_shift) {
-//         del_weak_mods(MOD_LSFT);
-//         del_mods(MOD_LSFT);
-//         send_keyboard_report();
-//       }
-//       return true;
-//
-//     case TO_NMP:
-//       if (record->event.pressed)
-//           move_to_numpad = true;
-//       return false;
-//
-//     // Process other keycodes normally
-//     default:
-//       return true;
-//   }
-// }
-
 // /**
 //  * Moves to the numpad layer on key press while ensuring the symbol layer is on
 //  */
