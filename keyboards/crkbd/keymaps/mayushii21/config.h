@@ -75,7 +75,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_TIME_TO_MAX    32
 
 
-#define MK_KINETIC_SPEED
-#define MOUSEKEY_MOVE_DELTA     100
-#define MOUSEKEY_INITIAL_SPEED  700
+/*#define MK_KINETIC_SPEED*/
+/*#define MOUSEKEY_MOVE_DELTA     100*/
+/*#define MOUSEKEY_INITIAL_SPEED  700*/
+
+#define MOUSEKEY_INERTIA
+#define MOUSEKEY_FRICTION 24 // How quickly the cursor stops after releasing a key
+#define MOUSEKEY_MOVE_DELTA	1
 
