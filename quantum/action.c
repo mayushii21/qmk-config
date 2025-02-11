@@ -831,8 +831,12 @@ void process_action(keyrecord_t *record, action_t action) {
 #ifndef NO_ACTION_TAPPING
 #    if defined(RETRO_TAPPING) || defined(RETRO_TAPPING_PER_KEY) || (defined(AUTO_SHIFT_ENABLE) && defined(RETRO_SHIFT))
     // MAYUSHII_HAS_BEEN_HERE :eyes:
+    static uint16_t last_tapped_code = KC_NO; // Track the last tapped keycode
+    // static uint16_t second_last_tapped_code = KC_NO; // One before last tapped keycode
+
     if (!is_tap_action(action)) {
         // Only reset on press
+        // send_string(" |action| ");
         if (event.pressed){
             retro_tapping_counter = 0;
         }
@@ -844,15 +848,32 @@ void process_action(keyrecord_t *record, action_t action) {
         }
 
         if (event.pressed) {
+            // this would be where to add to the stack
+
+            // Update the stack of tapped codes
+            // second_last_tapped_code = last_tapped_code;
+            // last_tapped_code = action.layer_tap.code;
+            // char dynamic_message[50]; // Buffer to hold the formatted string
+            // snprintf(dynamic_message, sizeof(dynamic_message), " |d%d_%d->%d (%d)| ", action.layer_tap.code, second_last_tapped_code, last_tapped_code, retro_tapping_counter);
+            // send_string(dynamic_message);
+
             if (tap_count > 0) {
+            last_tapped_code = action.layer_tap.code;
                 // No idea what this does
                 // retro_tapping_counter = 0;
+                retro_tapping_counter--;
             }
+
+            // snprintf(dynamic_message, sizeof(dynamic_message), " |ad%d_%d->%d (%d)| ", action.layer_tap.code, second_last_tapped_code, last_tapped_code, retro_tapping_counter);
+            // send_string(dynamic_message);
         } else {
-            if (tap_count > 0) {
-                // Or this
-                // retro_tapping_counter = 0;
-            } else {
+            // char dynamic_message[50]; // Buffer to hold the formatted string
+            // snprintf(dynamic_message, sizeof(dynamic_message), " |release%d_%d->%d (%d)| ", action.layer_tap.code, second_last_tapped_code, last_tapped_code, retro_tapping_counter);
+            // send_string(dynamic_message);
+            // if (tap_count > 0) {
+            //     // Or this
+            //     // retro_tapping_counter = 0;
+            // } else {
 
                 if (
 #        ifdef RETRO_TAPPING_PER_KEY
@@ -863,14 +884,24 @@ void process_action(keyrecord_t *record, action_t action) {
 #        if defined(AUTO_SHIFT_ENABLE) && defined(RETRO_SHIFT)
                     process_auto_shift(action.layer_tap.code, record);
 #        else
-                    tap_code(action.layer_tap.code);
-                    // Moved from down there v
-                    retro_tapping_counter = 0;
+            // char dynamic_message[50]; // Buffer to hold the formatted string
+            // snprintf(dynamic_message, sizeof(dynamic_message), " |u%d_%d->%d (%d)| ", action.layer_tap.code, second_last_tapped_code, last_tapped_code, retro_tapping_counter);
+            // send_string(dynamic_message);
+                    // if (second_last_tapped_code != action.layer_tap.code) {
+                    if (last_tapped_code != action.layer_tap.code) {
+                        tap_code(action.layer_tap.code);
+                        // Moved from down there v
+                        // retro_tapping_counter = 0;
+                        retro_tapping_counter--;
+                    }
+                    else {
+                        // send_string("nope");
+                    }
 #        endif
                 }
                 // Moved this up there ^
                 // retro_tapping_counter = 0;
-            }
+            // }
         }
     }
 #    endif
