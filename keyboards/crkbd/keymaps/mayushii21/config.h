@@ -49,11 +49,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* #endif */
 
 // #define KEY_OVERRIDE_INCLUDE_WEAK_MODS
-#define TAPPING_TERM 130
+#define TAPPING_TERM 170
 #define TAPPING_TERM_PER_KEY
 #define QUICK_TAP_TERM_PER_KEY
-#define RETRO_TAPPING
-#define RETRO_TAPPING_PER_KEY
+/*#define RETRO_TAPPING*/
+/*#define RETRO_TAPPING_PER_KEY*/
 
 #define DOUBLE_TAP_SHIFT_TURNS_ON_CAPS_WORD
 #define CAPS_WORD_INVERT_ON_SHIFT
