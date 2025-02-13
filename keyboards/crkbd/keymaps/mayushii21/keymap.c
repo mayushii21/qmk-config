@@ -109,18 +109,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     static bool kc_shift = false; // Keeps track of shift status for your existing functionality
 
-    // **Update Shift State for Caps Word**
-    switch (keycode) {
-        case KC_LSFT:
-        case KC_RSFT:
-        case OSM(MOD_LSFT):
-        case OSM(MOD_RSFT):
-            is_shift_held = record->event.pressed;
-            break;
-        default:
-            break;
+    // Update Shift State for Caps Word
+    if (keycode==KC_LSFT || keycode==OSM(MOD_LSFT)) {
+        is_shift_held = record->event.pressed;
     }
-
     // If caps word is on and the pressed key is space
     if (is_caps_word_on() && keycode==KC_SPC) {
         // Send underscore if shift is held (on key press)
