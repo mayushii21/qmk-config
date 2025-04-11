@@ -100,14 +100,11 @@ enum keycodes {
 };
 
 // static bool move_to_numpad = false;
-
 static bool is_shift_held = false; // For Caps Word
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
     // process achordion homerow mods
     if (!process_achordion(keycode, record)) { return false; }
-
-    static bool kc_shift = false; // Keeps track of shift status for your existing functionality
 
     // Update Shift State for Caps Word
     if (keycode==KC_LSFT || keycode==OSM(MOD_LSFT)) {
@@ -134,18 +131,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     //     return false;
     // }
 
+    static bool kc_shift = false;
     switch (keycode) {
         // Raise shift before clicking = after + or !
+        case KC_RABK:
+        case KC_LABK:
         case KC_EXLM:
         case KC_PLUS:
             kc_shift = record->event.pressed;
             break;
-
         case KC_EQUAL:
             if (record->event.pressed && kc_shift) {
                 del_weak_mods(MOD_LSFT);
                 del_mods(MOD_LSFT);
                 send_keyboard_report();
+            }
+            break;
         // Unlock LLOCK'ed layers on ESC
         case LCTL_T(KC_ESC):
             if (!record->event.pressed) {
