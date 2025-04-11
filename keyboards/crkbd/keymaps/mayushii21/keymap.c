@@ -124,13 +124,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    // // Early return for housekeeping task to execute
-    // if (keycode == TO_NMP) {
-    //     if (record->event.pressed)
-    //         move_to_numpad = true;
-    //     return false;
-    // }
-
     static bool kc_shift = false;
     switch (keycode) {
         // Raise shift before clicking = after + or !
@@ -143,10 +136,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_EQUAL:
             if (record->event.pressed && kc_shift) {
                 del_weak_mods(MOD_LSFT);
-                del_mods(MOD_LSFT);
+                // del_mods(MOD_LSFT);
                 send_keyboard_report();
             }
             break;
+
+        // case TO_NMP:
+        //     if (record->event.pressed)
+        //         move_to_numpad = true;
+        //     return false;
+
         // Unlock LLOCK'ed layers on ESC
         case LCTL_T(KC_ESC):
             if (!record->event.pressed) {
@@ -165,12 +164,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
-        // Add more cases here if needed
         default:
             break;
     }
 
-    // **Process Other Keycodes Normally**
+    // Process Other Keycodes Normally
     return true;
 }
 
